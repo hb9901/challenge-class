@@ -22,9 +22,3 @@
   height: 50px;
   position: absolute;
 }
-
-.pikachu-turn{
-  transform: scaleX(-1);
-  transition: .3s;
-}
-

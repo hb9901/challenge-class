@@ -3,34 +3,21 @@ import "./App.css";
 import pikachu from "./assets/img/pikachu.png";
 
 function App() {
+  const START_ROW_POSITION = 0;
+  const START_COLUMN_POSITION = 0;
   const BLOCK_WIDTH = 50;
   const BLOCK_HEIGHT = 50;
   const MAX_ROW_NUM = 500;
   const MAX_COLUMN_NUM = 500;
   const MIN_ROW_NUM = 0;
   const MIN_COLUMN_NUM = 0;
+  const ANIMATION_DELAY = 300;
   const [position, setPosition] = useState({
-    x: 0,
-    y: 0,
+    x: START_ROW_POSITION,
+    y: START_COLUMN_POSITION,
     direction: 1,
   });
   const pikachuRef = useRef(null);
-
-  const jumpPikachu = () => {
-    pikachuRef.current.animate(
-      {
-        transform: ["translateY(0px)", "translateY(-50px)"],
-      },
-      {
-        duration: 200,
-      }
-    );
-  };
-
-  const turnPikachu = (direction) => {
-    pikachuRef.current.style.transform = `scaleX(${direction})`;
-    pikachuRef.current.style.transition = `0.3s`;
-  };
 
   const movePikachu = (x, y, direction) => {
     const moveX = BLOCK_WIDTH * x;
@@ -48,9 +35,30 @@ function App() {
       return {
         x: newX,
         y: newY,
-        isPrevKeyRight: direction ? direction : prev.direction,
+        direction: direction ? direction : prev.direction,
       };
     });
+  };
+
+  const jumpPikachu = (direction) => {
+    pikachuRef.current.animate(
+      [
+        {
+          transform: `scaleX(${direction})`,
+        },
+        {
+          transform: `translateY(-${BLOCK_HEIGHT}px) scaleX(${direction})`,
+        },
+      ],
+      {
+        duration: ANIMATION_DELAY,
+      }
+    );
+  };
+
+  const turnPikachu = (direction) => {
+    pikachuRef.current.style.transform = `scaleX(${direction})`;
+    pikachuRef.current.style.transition = `${ANIMATION_DELAY}`;
   };
 
   useEffect(() => {
@@ -64,7 +72,7 @@ function App() {
       } else if (e.key === 40 || e.key === "ArrowDown") {
         movePikachu(0, 1);
       } else if (e.key === 32 || e.key === " ") {
-        jumpPikachu();
+        jumpPikachu(position.direction);
       }
     };
 
