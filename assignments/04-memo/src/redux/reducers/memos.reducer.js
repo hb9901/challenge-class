@@ -4,7 +4,6 @@ export const DEL_MEMO = "memos/DEL_MEMO"
 const initialState= [{
   date:"",
   title: "새로운 메모",
-
 }]
 
 function memosReducer(prevState = initialState, action){
