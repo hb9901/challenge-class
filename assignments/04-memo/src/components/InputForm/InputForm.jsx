@@ -1,11 +1,21 @@
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { UPDATE_MEMO } from "../../redux/reducers/memo.reducer";
+import { makeDateStr } from "./functions";
 
 function InputForm() {
-  const date = new Date().getDate();
+  const dispatch = useDispatch();
+  const date = new Date();
+  const dateStr = makeDateStr(date);
+
+  const handleChange = ({ target }) => {
+    dispatch({ type: UPDATE_MEMO, payload: { content: target.value } });
+  };
+
   return (
     <Wrapper>
-      <DateTime>{date}</DateTime>
-      <InputMemo />
+      <DateTime>{dateStr}</DateTime>
+      <InputMemo onChange={handleChange} />
     </Wrapper>
   );
 }

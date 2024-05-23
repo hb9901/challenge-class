@@ -1,4 +1,6 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { makeHourMinStr } from "./functions";
 
 const mockData = [
   {
@@ -31,8 +33,17 @@ const mockData = [
   },
 ];
 function Memos() {
+  const memo = useSelector((state) => state.memo.content)
+  const date = new Date();
+  const timeStr = makeHourMinStr(date);
+  
+  console.log(memo, timeStr);
   return (
     <MemosList>
+      <Memo>
+        <MemoTitle>{memo}</MemoTitle>
+        <MemoDate>{timeStr}</MemoDate>
+      </Memo>
       {mockData.map((memo) => {
         return (
           <Memo key={memo.date}>

@@ -1,17 +1,13 @@
 export const UPDATE_MEMO = "memo/UPDATE_MEMO"
 
 const initialState= {
-  date: new Date(),
-  content: "", 
+  content: "새로운 메모", 
 }
 
 function memoReducer(prevState = initialState, action){
-  switch(action){
+  switch(action.type){
     case UPDATE_MEMO:
-      return {
-        date: new Date(),
-        content: action.payload,
-      };
+      return action.payload ? action.payload : prevState
     default:
       return prevState;
   }

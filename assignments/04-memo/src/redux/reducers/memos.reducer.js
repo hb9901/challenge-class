@@ -4,10 +4,11 @@ export const DEL_MEMO = "memos/DEL_MEMO"
 const initialState= [{
   date:"",
   title: "새로운 메모",
+
 }]
 
 function memosReducer(prevState = initialState, action){
-  switch(action){
+  switch(action.type){
     case ADD_MEMO:
       return [...prevState, action.payload];
     case DEL_MEMO:
