@@ -1,29 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { makeDateStr, makeHourMinStr } from "../../assets/js/functions";
-import { UPDATE_MEMO } from "../../redux/reducers/memo.reducer";
+import { getDate } from "../../assets/js/functions";
+import { UPDATE_MEMO } from "../../redux/reducers/memoState.reducer";
 
 function InputForm() {
   const dispatch = useDispatch();
-  const content = useSelector((state) => state.memo.content);
-  const date = makeDateStr();
-  const time = makeHourMinStr(date);
-
+  const {selectedID, memos} = useSelector((state) => state.memoState);
+  const date = getDate();
+  
   const handleChange = ({ target }) => {
     dispatch({
       type: UPDATE_MEMO,
-      payload: {
-        title: target.value.length > 0 ? target.value : "새로운 메모",
-        content: target.value.length > 0 ? target.value : "",
-        time,
-      },
+      payload: target.value,
     });
   };
 
   return (
     <Wrapper>
       <DateTime>{date}</DateTime>
-      <InputMemo value={content} onChange={handleChange} />
+      <InputMemo
+        value={memos.filter((memo) => memo.id === selectedID)[0].content}
+        onChange={handleChange}
+      />
     </Wrapper>
   );
 }

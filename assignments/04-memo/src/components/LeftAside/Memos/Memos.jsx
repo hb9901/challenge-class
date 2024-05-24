@@ -1,74 +1,35 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { UPDATE_MEMO } from "../../../redux/reducers/memo.reducer";
-import { UPDATE_MEMOS } from "../../../redux/reducers/memos.reducer";
-import { UPDATE_ID } from "../../../redux/reducers/selectedID.reducer";
+import { SELECT_ID } from "../../../redux/reducers/memoState.reducer";
 
 function Memos() {
-  const typingMemo = useSelector((state) => state.memo);
-  const memos = useSelector((state) => state.memos);
-  const selectedID = useSelector((state) => state.selectedID);
+  const memoState = useSelector((state) => state.memoState);
   const dispatch = useDispatch();
-  const START_INDEX = memos.length - 1;
 
   const handleClick = ({ currentTarget }) => {
     dispatch({
-      type: UPDATE_MEMO,
-      payload: {
-        title: currentTarget.dataset.title,
-        content: currentTarget.dataset.content,
-        time: currentTarget.dataset.time,
-      },
-    });
-    dispatch({
-      type: UPDATE_MEMOS,
-      payload: {
-        id: selectedID,
-        ...typingMemo,
-      },
-    });
-    dispatch({
-      type: UPDATE_ID,
+      type: SELECT_ID,
       payload: currentTarget.dataset.id,
     });
   };
 
   return (
     <MemosList>
-      <Memo
-        data-id={memos[START_INDEX].id}
-        data-title={memos[START_INDEX].title}
-        data-content={memos[START_INDEX].content}
-        data-time={memos[START_INDEX].time}
-        onClick={handleClick}
-        $isSelected={selectedID === memos[START_INDEX].id}
-      >
-        <MemoTitle>
-          {selectedID === memos[START_INDEX].id
-            ? typingMemo.title
-            : memos[START_INDEX].title}
-        </MemoTitle>
-        <MemoDate>{memos[START_INDEX].time}</MemoDate>
-      </Memo>
-      {memos.map((memo, index) => {
-        if (index !== START_INDEX) {
-          return (
-            <Memo
-              key={memo.id}
-              data-id={memo.id}
-              data-title={memo.title}
-              data-content={memo.content}
-              data-time={memo.time}
-              onClick={handleClick}
-              $isSelected={selectedID === memo.id}
-            >
-              <MemoTitle>
-                {selectedID === memo.id ? typingMemo.title : memo.title}
-              </MemoTitle>
-              <MemoDate>{memo.time}</MemoDate>
-            </Memo>
-          );
-        }
+      {memoState.memos.map((memo) => {
+        return (
+          <Memo
+            key={memo.id}
+            data-id={memo.id}
+            data-title={memo.title}
+            data-content={memo.content}
+            data-time={memo.time}
+            onClick={handleClick}
+            $isSelected={memoState.selectedID === memo.id}
+          >
+            <MemoTitle>{memo.content ? memo.content : "새로운 메모"}</MemoTitle>
+            <MemoDate>{memo.time}</MemoDate>
+          </Memo>
+        );
       })}
     </MemosList>
   );

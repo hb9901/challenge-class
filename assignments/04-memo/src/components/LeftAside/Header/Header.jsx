@@ -1,38 +1,21 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { INIT_MEMO } from "../../../redux/reducers/memo.reducer";
-import { ADD_MEMO, DEL_MEMO } from "../../../redux/reducers/memos.reducer";
-import { UPDATE_ID } from "../../../redux/reducers/selectedID.reducer";
+import { ADD_MEMO, DEL_MEMO } from "../../../redux/reducers/memoState.reducer";
 
 function Header() {
-  const selectedID = useSelector((state) => state.selectedID);
-  const memo = useSelector((state) => state.memo);
   const dispatch = useDispatch();
 
   const handleClickAdd = () => {
     dispatch({
       type: ADD_MEMO,
-      payload: {
-        id: crypto.randomUUID(),
-        ...memo,
-      },
-    });
-    dispatch({
-      type: INIT_MEMO,
+      payload: "",
     });
   };
 
   const handleClickDel = () => {
-    if (selectedID !== "1") {
-      dispatch({
-        type: DEL_MEMO,
-        payload: selectedID,
-      });
-      dispatch({
-        type: UPDATE_ID,
-        payload: "1",
-      })
-    }
+    dispatch({
+      type: DEL_MEMO,
+    });
   };
 
   return (

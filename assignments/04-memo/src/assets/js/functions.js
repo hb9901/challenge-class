@@ -1,4 +1,4 @@
-export function makeDateStr() {
+export function getDate() {
   const date = new Date();
   const hour = changeHour(date.getHours());
   const time = checkHour(date.getHours());
@@ -18,7 +18,7 @@ export function makeDateStr() {
   return dateStr;
 }
 
-export function makeHourMinStr() {
+export function getTime() {
   const date = new Date();
   const hour = changeHour(date.getHours());
   const time = checkHour(date.getHours());

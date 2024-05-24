@@ -1,13 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import memoReducer from "./reducers/memo.reducer";
-import memosReducer from "./reducers/memos.reducer";
-import selectedID from "./reducers/selectedID.reducer";
+import memoStateReducer from "./reducers/memoState.reducer";
 
 const store = configureStore({
   reducer: {
-    selectedID: selectedID,
-    memo: memoReducer,
-    memos: memosReducer,
+    memoState: memoStateReducer,
   },
 });
 
