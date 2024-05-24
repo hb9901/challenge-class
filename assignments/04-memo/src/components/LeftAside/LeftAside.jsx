@@ -21,5 +21,6 @@ const Wrapper = styled.aside`
   
   border-right: 1px solid rgb(230, 230, 230);
 
+  align-content: flex-start;
   overflow-y: auto;
 `;

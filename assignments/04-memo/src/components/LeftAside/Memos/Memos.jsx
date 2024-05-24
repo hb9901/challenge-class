@@ -1,56 +1,74 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { makeHourMinStr } from "./functions";
+import { UPDATE_MEMO } from "../../../redux/reducers/memo.reducer";
+import { UPDATE_MEMOS } from "../../../redux/reducers/memos.reducer";
+import { UPDATE_ID } from "../../../redux/reducers/selectedID.reducer";
 
-const mockData = [
-  {
-    date: "1",
-    title: "새로운 메모 qwerasdfzxcvqweer",
-  },
-  {
-    date: "2",
-    title: "새로운 메모",
-  },
-  {
-    date: "3",
-    title: "새로운 메모",
-  },
-  {
-    date: "4",
-    title: "새로운 메모",
-  },
-  {
-    date: "5",
-    title: "새로운 메모",
-  },
-  {
-    date: "6",
-    title: "새로운 메모",
-  },
-  {
-    date: "7",
-    title: "새로운 메모",
-  },
-];
 function Memos() {
-  const memo = useSelector((state) => state.memo.content)
-  const date = new Date();
-  const timeStr = makeHourMinStr(date);
-  
-  console.log(memo, timeStr);
+  const typingMemo = useSelector((state) => state.memo);
+  const memos = useSelector((state) => state.memos);
+  const selectedID = useSelector((state) => state.selectedID);
+  const dispatch = useDispatch();
+  const START_INDEX = memos.length - 1;
+
+  const handleClick = ({ currentTarget }) => {
+    dispatch({
+      type: UPDATE_MEMO,
+      payload: {
+        title: currentTarget.dataset.title,
+        content: currentTarget.dataset.content,
+        time: currentTarget.dataset.time,
+      },
+    });
+    dispatch({
+      type: UPDATE_MEMOS,
+      payload: {
+        id: selectedID,
+        ...typingMemo,
+      },
+    });
+    dispatch({
+      type: UPDATE_ID,
+      payload: currentTarget.dataset.id,
+    });
+  };
+
   return (
     <MemosList>
-      <Memo>
-        <MemoTitle>{memo}</MemoTitle>
-        <MemoDate>{timeStr}</MemoDate>
+      <Memo
+        data-id={memos[START_INDEX].id}
+        data-title={memos[START_INDEX].title}
+        data-content={memos[START_INDEX].content}
+        data-time={memos[START_INDEX].time}
+        onClick={handleClick}
+        $isSelected={selectedID === memos[START_INDEX].id}
+      >
+        <MemoTitle>
+          {selectedID === memos[START_INDEX].id
+            ? typingMemo.title
+            : memos[START_INDEX].title}
+        </MemoTitle>
+        <MemoDate>{memos[START_INDEX].time}</MemoDate>
       </Memo>
-      {mockData.map((memo) => {
-        return (
-          <Memo key={memo.date}>
-            <MemoTitle>{memo.title}</MemoTitle>
-            <MemoDate>{memo.date}</MemoDate>
-          </Memo>
-        );
+      {memos.map((memo, index) => {
+        if (index !== START_INDEX) {
+          return (
+            <Memo
+              key={memo.id}
+              data-id={memo.id}
+              data-title={memo.title}
+              data-content={memo.content}
+              data-time={memo.time}
+              onClick={handleClick}
+              $isSelected={selectedID === memo.id}
+            >
+              <MemoTitle>
+                {selectedID === memo.id ? typingMemo.title : memo.title}
+              </MemoTitle>
+              <MemoDate>{memo.time}</MemoDate>
+            </Memo>
+          );
+        }
       })}
     </MemosList>
   );
@@ -71,7 +89,7 @@ const MemosList = styled.ul`
 `;
 
 const Memo = styled.li`
-  display:inline-grid;
+  display: inline-grid;
   padding: 12px 24px;
 
   height: 56px;
@@ -84,6 +102,11 @@ const Memo = styled.li`
 
   cursor: pointer;
   box-sizing: border-box;
+
+  ${({ $isSelected }) =>
+    $isSelected
+      ? `background-color: rgb(255, 224, 127);`
+      : `background-color: white`}
 `;
 
 const MemoTitle = styled.h6`
