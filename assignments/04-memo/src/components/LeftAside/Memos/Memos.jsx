@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { SELECT_ID } from "../../../redux/reducers/memoState.reducer";
+import { getDate } from "../../../utils/functions";
 
 function Memos() {
   const memoState = useSelector((state) => state.memoState);
@@ -22,12 +23,12 @@ function Memos() {
             data-id={memo.id}
             data-title={memo.title}
             data-content={memo.content}
-            data-time={memo.time}
+            data-date={memo.date}
             onClick={handleClick}
             $isSelected={memoState.selectedID === memo.id}
           >
             <MemoTitle>{memo.content ? memo.content : "새로운 메모"}</MemoTitle>
-            <MemoDate>{memo.time}</MemoDate>
+            <MemoDate>{getDate(memo.date, "short")}</MemoDate>
           </Memo>
         );
       })}

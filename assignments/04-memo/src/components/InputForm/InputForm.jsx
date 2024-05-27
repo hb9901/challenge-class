@@ -1,13 +1,25 @@
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { getDate } from "../../assets/js/functions";
 import { UPDATE_MEMO } from "../../redux/reducers/memoState.reducer";
+import { getDate } from "../../utils/functions";
 
 function InputForm() {
   const dispatch = useDispatch();
-  const {selectedID, memos} = useSelector((state) => state.memoState);
-  const date = getDate();
-  
+  const textAreaRef = useRef()
+  const selectedID = useSelector((state) => state.memoState.selectedID);
+  const memos= useSelector((state) => state.memoState.memos);
+  const selectedMemo = memos.find((memo) => memo.id === selectedID);
+ const date = selectedMemo?.date ? getDate(selectedMemo.date, "long") : getDate("long");
+
+  console.log(selectedMemo.date);
+  useEffect(() => {
+    if(textAreaRef.current){
+      textAreaRef.current.focus();
+      textAreaRef.current.value = selectedMemo?.content || "";
+    }
+  }, [selectedID])
+
   const handleChange = ({ target }) => {
     dispatch({
       type: UPDATE_MEMO,
@@ -19,7 +31,7 @@ function InputForm() {
     <Wrapper>
       <DateTime>{date}</DateTime>
       <InputMemo
-        value={memos.filter((memo) => memo.id === selectedID)[0].content}
+        ref={textAreaRef}
         onChange={handleChange}
       />
     </Wrapper>

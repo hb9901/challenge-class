@@ -1,4 +1,3 @@
-import { getTime } from "../../assets/js/functions";
 
 export const ADD_MEMO = "memoState/ADD_MEMO";
 export const DEL_MEMO = "memoState/DEL_MEMO";
@@ -12,7 +11,7 @@ const initialState = {
     {
       id: INIT_ID,
       content: "",
-      time: getTime(),
+      date: Date.now(),
     },
   ],
 };
@@ -30,7 +29,7 @@ function memoStateReducer(prevState = initialState, action) {
       const newMemo = {
         id: randomID,
         content: String(action.payload),
-        time: getTime(),
+        date: Date.now(),
       };
 
       return {
@@ -46,7 +45,6 @@ function memoStateReducer(prevState = initialState, action) {
         return prevState;
       } else {
         return {
-          ...prevState,
           selectedID: filtered[0].id,
           memos: filtered,
         };
@@ -59,7 +57,6 @@ function memoStateReducer(prevState = initialState, action) {
           return {
             ...memo,
             content: action.payload,
-            time: getTime(),
           };
         } else {
           return memo;
