@@ -6,19 +6,20 @@ import { getDate } from "../../utils/functions";
 
 function InputForm() {
   const dispatch = useDispatch();
-  const textAreaRef = useRef()
+  const textAreaRef = useRef();
   const selectedID = useSelector((state) => state.memoState.selectedID);
-  const memos= useSelector((state) => state.memoState.memos);
+  const memos = useSelector((state) => state.memoState.memos);
   const selectedMemo = memos.find((memo) => memo.id === selectedID);
- const date = selectedMemo?.date ? getDate(selectedMemo.date, "long") : getDate("long");
+  const date = getDate(selectedMemo && selectedMemo.ID, "long");
 
-  console.log(selectedMemo.date);
   useEffect(() => {
-    if(textAreaRef.current){
+    if (textAreaRef.current) {
       textAreaRef.current.focus();
       textAreaRef.current.value = selectedMemo?.content || "";
     }
-  }, [selectedID])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedID]);
 
   const handleChange = ({ target }) => {
     dispatch({
@@ -30,10 +31,7 @@ function InputForm() {
   return (
     <Wrapper>
       <DateTime>{date}</DateTime>
-      <InputMemo
-        ref={textAreaRef}
-        onChange={handleChange}
-      />
+      <InputMemo ref={textAreaRef} onChange={handleChange} />
     </Wrapper>
   );
 }
