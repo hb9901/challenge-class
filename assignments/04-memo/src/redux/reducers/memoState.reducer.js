@@ -1,4 +1,4 @@
-
+export const INIT_MEMOSTATE = "memoStaet/INIT_MEMOSTATE"
 export const ADD_MEMO = "memoState/ADD_MEMO";
 export const DEL_MEMO = "memoState/DEL_MEMO";
 export const UPDATE_MEMO = "memoState/UPDATE_MEMOS";
@@ -18,36 +18,50 @@ const initialState = {
 
 function memoStateReducer(prevState = initialState, action) {
   switch (action.type) {
-    case SELECT_ID:
-      return {
+    case SELECT_ID: {
+      const newMemoState = {
         ...prevState,
         selectedID: action.payload,
       };
+      localStorage.setItem("memoState", JSON.stringify(newMemoState));
+      return newMemoState;
+    }
 
-    case ADD_MEMO:{
-      const randomID = crypto.randomUUID();
+    case INIT_MEMOSTATE:{
+      return action.payload ? action.payload : prevState;
+    }
+
+    case ADD_MEMO: {
       const newMemo = {
-        id: randomID,
-        content: String(action.payload),
+        id: action.payload.id,
+        content: "",
         date: Date.now(),
       };
 
-      return {
-        selectedID: randomID,
+      const newMemoState = {
+        selectedID: newMemo.id,
         memos: [newMemo, ...prevState.memos],
       };
+
+      localStorage.setItem("memoState", JSON.stringify(newMemoState));
+      return newMemoState;
     }
     case DEL_MEMO: {
-      const filtered = prevState.memos.filter((memo) => memo.id !== prevState.selectedID);
+      const filtered = prevState.memos.filter(
+        (memo) => memo.id !== prevState.selectedID
+      );
 
       if (filtered.length === 0) {
         alert("하나 이상의 메모는 남겨두어야 합니다.");
         return prevState;
       } else {
-        return {
+        const newMemoState = {
           selectedID: filtered[0].id,
           memos: filtered,
         };
+
+        localStorage.setItem("memoState", JSON.stringify(newMemoState));
+        return newMemoState;
       }
     }
 
@@ -62,10 +76,14 @@ function memoStateReducer(prevState = initialState, action) {
           return memo;
         }
       });
-      return {
+
+      const newMemoState = {
         ...prevState,
         memos: newMemos,
       };
+
+      localStorage.setItem("memoState", JSON.stringify(newMemoState));
+      return newMemoState;
     }
 
     default:

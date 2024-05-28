@@ -2,11 +2,12 @@ import styled from "styled-components";
 import Header from "./Header";
 import Memos from "./Memos";
 
+
 function LeftAside() {
   return (
     <Wrapper>
-      <Header/>
-      <Memos/>
+      <Header />
+      <Memos />
     </Wrapper>
   );
 }
@@ -18,7 +19,7 @@ const Wrapper = styled.aside`
   grid-template-columns: 1fr;
 
   height: 100%;
-  
+
   border-right: 1px solid rgb(230, 230, 230);
 
   align-content: flex-start;

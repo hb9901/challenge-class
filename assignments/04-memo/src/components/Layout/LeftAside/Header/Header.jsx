@@ -1,15 +1,23 @@
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ADD_MEMO, DEL_MEMO } from "../../../redux/reducers/memoState.reducer";
+import { ADD_MEMO, DEL_MEMO } from "../../../../redux/reducers/memoState.reducer";
+
 
 function Header() {
+  const newID = crypto.randomUUID();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClickAdd = () => {
     dispatch({
       type: ADD_MEMO,
-      payload: "",
+      payload: {
+        id: newID,
+      }
+
     });
+    navigate("/");
   };
 
   const handleClickDel = () => {

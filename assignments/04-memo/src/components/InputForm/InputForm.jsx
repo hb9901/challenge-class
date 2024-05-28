@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { debounce } from "lodash";
+import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { UPDATE_MEMO } from "../../redux/reducers/memoState.reducer";
@@ -21,11 +22,17 @@ function InputForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedID]);
 
+  const debounceMemoInput = useCallback(
+    debounce((value) => {
+      dispatch({
+        type: UPDATE_MEMO,
+        payload: value,
+      });
+    }, 350),
+    []
+  );
   const handleChange = ({ target }) => {
-    dispatch({
-      type: UPDATE_MEMO,
-      payload: target.value,
-    });
+    debounceMemoInput(target.value);
   };
 
   return (

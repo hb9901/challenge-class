@@ -1,17 +1,23 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { SELECT_ID } from "../../../redux/reducers/memoState.reducer";
-import { getDate } from "../../../utils/functions";
+import { SELECT_ID } from "../../../../redux/reducers/memoState.reducer";
+import { getDate } from "../../../../utils/functions";
 
 function Memos() {
-  const memoState = useSelector((state) => state.memoState);
+  const localStorageData = JSON.parse(localStorage.getItem("memoState"));
+  const reduxData = useSelector((state) => state.memoState);
+  const memoState = localStorageData ? localStorageData : reduxData;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  console.log(JSON.parse(localStorage.getItem("memoState")));
   const handleClick = ({ currentTarget }) => {
     dispatch({
       type: SELECT_ID,
       payload: currentTarget.dataset.id,
     });
+    navigate(`/details/${currentTarget.dataset.id}`);
   };
 
   return (
@@ -21,9 +27,6 @@ function Memos() {
           <Memo
             key={memo.id}
             data-id={memo.id}
-            data-title={memo.title}
-            data-content={memo.content}
-            data-date={memo.date}
             onClick={handleClick}
             $isSelected={memoState.selectedID === memo.id}
           >
