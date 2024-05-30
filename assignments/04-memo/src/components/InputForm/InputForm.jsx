@@ -31,7 +31,7 @@ function InputForm() {
   //   }, 1000),
   //   []
   // );
-  
+
   const customDebounce = (func, time = 30000) => {
     let timer;
     const debounce = (value) => {
@@ -43,7 +43,6 @@ function InputForm() {
   };
 
   const debounceMemoInput = customDebounce((value) => {
-    console.log(value);
     dispatch({
       type: UPDATE_MEMO,
       payload: value,
