@@ -31,18 +31,19 @@ function InputForm() {
   //   }, 1000),
   //   []
   // );
-
+  
   const customDebounce = (func, time = 30000) => {
     let timer;
-    const debounce = () => {
+    const debounce = (value) => {
       clearTimeout(timer);
-      timer = setTimeout(func, time);
+      timer = setTimeout(() => func(value), time);
     };
 
     return debounce;
   };
 
   const debounceMemoInput = customDebounce((value) => {
+    console.log(value);
     dispatch({
       type: UPDATE_MEMO,
       payload: value,

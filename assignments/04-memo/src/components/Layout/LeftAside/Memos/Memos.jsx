@@ -11,7 +11,6 @@ function Memos() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(JSON.parse(localStorage.getItem("memoState")));
   const handleClick = ({ currentTarget }) => {
     dispatch({
       type: SELECT_ID,

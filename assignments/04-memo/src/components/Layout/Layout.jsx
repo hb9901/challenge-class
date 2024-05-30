@@ -5,7 +5,6 @@ import { INIT_MEMOSTATE } from "../../redux/reducers/memoState.reducer";
 import LeftAside from "./LeftAside";
 
 function Layout() {
-  console.log("나 layout")
   const dispatch =useDispatch();
   const memoState = JSON.parse(localStorage.getItem("memoState"));
 
