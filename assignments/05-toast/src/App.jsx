@@ -14,7 +14,7 @@ function App() {
       id: ID,
       title: titleRef.current.value,
       content: contentRef.current.value,
-      delay: delayRef.current.value || "2000",
+      delay: Number(delayRef.current.value) || 2000,
     });
   };
 
