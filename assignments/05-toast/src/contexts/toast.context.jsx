@@ -8,18 +8,27 @@ export const useToast = () => useContext(ToastContext);
 
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
-  console.log(toasts);
   const value = {
     open: (options) => {
       const { id, title, content, delay } = options;
       setToasts((prevToasts) => [
         ...prevToasts,
-        <Toast key={id} id={id} title={title} content={content} delay={delay}/>,
+        <Toast
+          key={id}
+          id={id}
+          title={title}
+          content={content}
+          delay={delay}
+        />,
       ]);
     },
 
     close: (id) => {
-      setToasts((prevToasts)=>prevToasts.filter((toast) => id === toast.id));
+      setToasts((prevToasts) => {
+        return prevToasts.filter((toast) => {
+          return id !== toast.props.id;
+        });
+      });
     },
   };
   return (

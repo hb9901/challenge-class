@@ -27,6 +27,7 @@ function App() {
             <label className="text-sm font=medium">제목 (필수)</label>
             <input
               className="border px-5 py-2.5 rounded-md w-80"
+              defaultValue="Scheduled: Catch up"
               ref={titleRef}
             />
           </div>
@@ -34,6 +35,7 @@ function App() {
             <label className="text-sm font=medium">내용 (필수)</label>
             <input
               className="border px-5 py-2.5 rounded-md w-80"
+              defaultValue="Friday, February 10, 2023 at 5:57 PM"
               ref={contentRef}
             />
           </div>
@@ -41,6 +43,7 @@ function App() {
             <label className="text-sm font=medium">노출 시간(ms) (선택)</label>
             <input
               className="border px-5 py-2.5 rounded-md w-80"
+              defaultValue="2000"
               ref={delayRef}
             />
           </div>

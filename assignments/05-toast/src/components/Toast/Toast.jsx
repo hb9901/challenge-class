@@ -5,7 +5,6 @@ function Toast({ id, title, content, delay }) {
   const toast = useToast();
 
   useEffect(() => {
-    console.log(id, delay);
     const timer = setTimeout(() => {
       toast.close(id);
     }, delay);
@@ -15,10 +14,12 @@ function Toast({ id, title, content, delay }) {
   }, []);
 
   return (
-    <li className="">
-      <div className="flex flex-col shadow-lg bg-white p-6 border rounded-lg w-[320px] transition translate-x-[calc(100%+24px)] items-start duration-500 text-sm !translate-x-0">
-        <h6 className="font-semibold">{title}</h6>
-        <p>{content}</p>
+    <li>
+      <div className="shadow-lg bg-white p-6 border rounded-lg w-[320px] transition translate-x-370px flex items-center duration-500 text-sm ">
+        <div className="grow flex flex-col">
+          <h6 className="font-semibold">{title}</h6>
+          <p>{content}</p>
+        </div>
       </div>
     </li>
   );
