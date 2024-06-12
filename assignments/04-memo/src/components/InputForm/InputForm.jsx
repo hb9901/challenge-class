@@ -29,7 +29,7 @@ function InputForm() {
   //       payload: value,
   //     });
   //   }, 1000),
-  //   []
+  //   [].
   // );
 
   const customDebounce = (func, time = 30000) => {
